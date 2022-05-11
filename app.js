@@ -8,19 +8,22 @@ const game = (() => {
     [0, 0, 0],
   ];
   const _playX = (place, X) => {
-    gameboard[place][X] = "X";
+    gameboard[place][X] = "X"; // Where to put X
   };
   const _playO = (place, O) => {
-    gameboard[place][O] = "O";
+    gameboard[place][O] = "O"; // Where to put O
   };
-  const player1 = (row, column, symbol) => {
+  // players take row and column of where to put the symbol
+  const player = (row, column, symbol) => {
+    // make other functions to play inside this
+    const symbol = symbol;
     if (symbol == "O") {
       _playO(row, column);
     } else {
       _playX(row, column);
     }
   };
-  return { gameboard: () => gameboard, player1 };
+  return { gameboard: () => gameboard, player };
 })();
-game.player1(2, 2, "O");
-console.log(game.gameboard());
+
+player = game.player();
