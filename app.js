@@ -14,22 +14,21 @@ const game = (() => {
   // players take row and column of where to put the symbol
   // How do you create player tho
   const players = (() => {
+    let played1,
+      played2 = false;
     const player1 = (place, X) => {
       gameboard.getBoard()[place][X] = "X"; // Where to put X
-      let played = true;
-
-      return played;
+      played1 = true;
     };
     const player2 = (place, O) => {
       gameboard.getBoard()[place][O] = "O"; // Where to put O
-      let played = true;
-
-      return played;
+      played2 = true;
     };
     return { player1, player2 };
   })();
 
   const displayController = (() => {
+    // write to DOM
     const wirte = () => {
       const div = document.createElement("div");
       div.classList.add("container");
@@ -46,14 +45,25 @@ const game = (() => {
       `;
       document.querySelector(".main").appendChild(div);
     };
-    const click = (x) => {
+    // What to do when a box is clicked
+    const click = (X, O) => {
+      let played1 = false;
+      let played2 = false;
       document.addEventListener("click", (e) => {
         if (e.target.classList.contains("box") && e.target.innerHTML == "") {
-          e.target.innerHTML = x;
           let row = e.target.getAttribute("data-row");
           let box = e.target.getAttribute("data-box");
-
-          players.player1(row, box);
+          if (played1) {
+            e.target.innerHTML = O;
+            players.player2(row, box);
+            played2 = true;
+            played1 = false;
+          } else {
+            e.target.innerHTML = X;
+            players.player1(row, box);
+            played1 = true;
+            played2 = false;
+          }
 
           console.log(gameboard.getBoard());
         }
@@ -61,7 +71,7 @@ const game = (() => {
     };
     return { wirte, click };
   })();
-  displayController.click("x");
+  displayController.click("x", "O");
   displayController.wirte();
   console.log(gameboard.getBoard());
   return { players };
