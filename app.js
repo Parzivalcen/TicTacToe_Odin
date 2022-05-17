@@ -26,55 +26,47 @@ const game = (() => {
 
   const displayController = (() => {
     // write to DOM
-    const wirte = () => {
-      const div = document.createElement("div");
-      div.classList.add("container");
-      div.innerHTML = `
-       <div class="box" data-box=0 ></div>
-        <div class="box" data-box=1 ></div>
-        <div class="box" data-box=2 ></div>
-        <div class="box" data-box=3></div>
-        <div class="box" data-box=4 ></div>
-        <div class="box" data-box=5 ></div>
-        <div class="box" data-box=6 ></div>
-        <div class="box" data-box=7 ></div>
-        <div class="box" data-box=8 ></div>
-      `;
-      document.querySelector(".main").appendChild(div);
-    };
     // What to do when a box is clicked
     const click = (X, O) => {
-      let played1 = false;
-      let played2 = false;
+      let _played1 = false;
+      let _played2 = false;
+      // Changes when ther is a winner so you can't play anymore
+      let _emptyBox = '';
       document.addEventListener("click", (e) => {
-        if (e.target.classList.contains("box") && e.target.innerHTML == "") {
-          let box = e.target.getAttribute("data-box");
-          // check if player has played
-          if (played1) {
-            e.target.innerHTML = O;
+        let symbolHTML = e.target.firstChild;
+        if (symbolHTML.classList.contains("symbol") && symbolHTML.innerHTML == _emptyBox) {
+          // get box index to populate board Array
+          let box = symbolHTML.getAttribute("data-box");
+          // check if player has played, if not, allow to play until there is a winner
+          if (_played1) {
+            e.target.firstChild.innerHTML = O;
+            // populate board Array
             players.player2(box);
-            played2 = true;
-            played1 = false;
+            _played2 = true;
+            _played1 = false;
           } else {
-            e.target.innerHTML = X;
+            e.target.firstChild.innerHTML = X;
+            // populate board Array
             players.player1(box);
-            played1 = true;
-            played2 = false;
+            _played1 = true;
+            _played2 = false;
           }
           // print winner on screen.
-          if (checkWinner().winner) {
+          if (checkWinner().winner || checkWinner().winner == 'tie' ) {
             const win = document.createElement("h1");
             win.innerHTML = checkWinner().message;
             document.querySelector(".main").appendChild(win);
-            played2 = true;
-            played1 = true;
+            // Disable playing another round
+            _emptyBox = 'winner';
           }
+          
+         
           // LOG ARRAY
           console.log(gameboard.getBoard());
         }
       });
     };
-    return { wirte, click };
+    return {  click };
   })();
 
   
@@ -98,6 +90,7 @@ const game = (() => {
       return comboIndex.every((index) => gameboard.positionIndex(index) === 'O')
     });
 
+
     if (_player1Wins)
     {
       message = "Player 1 wins";
@@ -108,10 +101,18 @@ const game = (() => {
       message = "Player 2 wins";
       winner = true;
     }
+    // tie
+    else if (!gameboard.getBoard().includes(''))
+  {
+    message = 'tie'
+    winner = 'tie'
+  }
+    
+    // TIE NEEDED
+
     return { message, winner };
   };
   displayController.click("x", "O");
-  displayController.wirte();
   console.log(gameboard.getBoard());
 
 
