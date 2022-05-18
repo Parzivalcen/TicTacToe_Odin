@@ -32,9 +32,9 @@ const game = (() => {
       let _played2 = false;
       // Changes when ther is a winner so you can't play anymore
       let _emptyBox = '';
-      document.addEventListener("click", (e) => {
+      document.querySelector('.board-container').addEventListener("click", (e) => {
         let symbolHTML = e.target.firstChild;
-        if (symbolHTML.classList.contains("symbol") && symbolHTML.innerHTML == _emptyBox) {
+        if (symbolHTML.classList.contains("symbol") && symbolHTML.innerHTML === _emptyBox) {
           // get box index to populate board Array
           let box = symbolHTML.getAttribute("data-box");
           // check if player has played, if not, allow to play until there is a winner

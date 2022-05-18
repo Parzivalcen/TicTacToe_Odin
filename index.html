@@ -9,10 +9,29 @@
   </head>
   <body>
     <main class="main">
-      <div class="names">
-        
-      </div>
       <div class="container">
+        <div class="title">
+          <h1>Tic-tac-toe</h1>
+          <h2>Welcome, please indentify yourself</h2>
+        </div>
+        <div class="names">
+          <div class="form">
+            <div class="input-fields">
+              <!-- Player 1 name -->
+              <label for="name-1" class="player-name"><span><img src="./imgs/iconmonstr-x-mark-thin.svg" alt=""></span>Player 1 name:</label>
+              <input type="text" class="form" id="name-1" name="name-1">
+              <!-- Player 2 name -->
+                <label for="name-2" class="player-name"><span><img src="./imgs/iconmonstr-circle-6.svg" alt=""></span>Player 2 name:</label>
+                <input type="text" class="form" id="name-2" name="name-2">
+            </div>
+            <!-- Buttons -->
+            <div class="btns">
+              <input class="btn btn--Play" type="submit" value="Play">
+              <button class="btn">Play with A.I.</button>
+            </div>
+          </div>
+      </div>
+      <div class="board-container sr-only">
         <div class="box" ><p data-box=0  class="symbol"></p></div>
         <div class="box" ><p data-box=1  class="symbol"></p></div>
         <div class="box" ><p data-box=2  class="symbol"></p></div>
@@ -23,6 +42,10 @@
         <div class="box" ><p data-box=7  class="symbol"></p></div>
         <div class="box" ><p data-box=8  class="symbol"></p></div>
       </div>
+    </div>
+    <div class="game-over banish">
+      <h1>Player 1 Wins!!</h1>
+    </div>
     </main>
     <script src="./app.js"></script>
   </body>
