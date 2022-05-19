@@ -34,14 +34,18 @@ const game = (() => {
 
 
   const displayController = (() => {
-    // write to DOM
+    // WRITE to DOM //
+
     
     // What to do when a box is clicked
     const click = (X, O) => {
       // Create Players
       const player1 = player(1)
       const player2 = player(2)
-
+      document.addEventListener('submit', (e) =>{
+        e.preventDefault();
+        document.querySelector('.board-container').classList.remove('banish')       
+      })
       // Changes when players start playing. 
       let _played1 = false;
       let _played2 = false;
@@ -72,7 +76,7 @@ const game = (() => {
             _played2 = false;
           }
 
-          // print winner on screen.
+          // print winner or tie on screen.
           if (checkWinner().winner || checkWinner().winner == 'tie' ) 
           {
             const win = document.createElement("h1");

@@ -180,6 +180,10 @@ TIC-TAC-TOE
   display: none;
 }
 
+.show-grid-item {
+  display: grid;
+}
+
 /* ----------
 Names
 ------------ */
@@ -234,10 +238,6 @@ Names
     display: inline;
     padding-right: 0.5rem;
   }
-
-
-
-
 }
 
 
