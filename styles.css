@@ -183,41 +183,64 @@ TIC-TAC-TOE
 /* ----------
 Names
 ------------ */
-.title {
-  margin-top: 2rem;
-  text-align: center;
+@media screen and (min-width: 0px) {
+  .title {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .input-fields {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .player-name {
+    margin-top: 1rem
+  }
+
+  .form {
+    padding-block: 0.1rem;
+    padding-inline: 1rem;
+  }
+
+  .btns {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .btns>*:hover {
+    cursor: pointer;
+  }
+
+  .names {
+    border-bottom: 1px solid grey;
+    padding-bottom: 2rem;
+  }
 }
 
-.input-fields {
-  display: flex;
-  gap: 1rem
+@media screen and (min-width: 800px) {
+  .input-fields {
+    flex-direction: row;
+    gap: 1rem
+  }
+
+  .player-name {
+    margin-top: 0rem
+  }
+
+  .form img {
+    display: inline;
+    padding-right: 0.5rem;
+  }
+
+
+
+
 }
 
-.names {
-  border-bottom: 1px solid grey;
-  padding-bottom: 2rem;
-}
 
-.form {
-  padding-block: 0.1rem;
-  padding-inline: 1rem;
-}
-
-.form img {
-  display: inline;
-  padding-right: 0.5rem;
-}
-
-.btns {
-  margin-top: 1rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.btns>*:hover {
-  cursor: pointer;
-}
 
 /* ------------
 game over display
