@@ -235,6 +235,19 @@ Names
     margin-top: 1rem;
     padding-inline: 1rem;
   }
+
+  .game-over {
+    box-shadow: -1px 0px 5px 6px rgba(0, 0, 0, 0.36);
+    background-color: white;
+    max-width: 18rem;
+    text-align: center;
+    border-radius: 10px;
+    padding: 2rem;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+  }
 }
 
 @media screen and (min-width: 800px) {
@@ -259,11 +272,3 @@ Names
 /* ------------
 game over display
 -------------- */
-.game-over {
-  box-shadow: -1px 0px 5px 6px rgba(0, 0, 0, 0.36);
-  max-width: 18rem;
-  text-align: center;
-  border-radius: 10px;
-  padding: 2rem;
-  position: absolute;
-}

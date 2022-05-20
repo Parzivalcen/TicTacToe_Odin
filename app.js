@@ -3,7 +3,7 @@
 // Players can modify the array
 const game = (() => {
   const gameboard = (() => {
-    let _boardArr = ["", "", "", "", "", "", "", ""];
+    let _boardArr = ["", "", "", "", "", "", "", "", ""];
     const getBoard = () => _boardArr;
     const positionIndex = (index) => _boardArr[index];
     return { getBoard, positionIndex };
@@ -13,6 +13,10 @@ const game = (() => {
   const getName = (player) => {
     let name
       name = document.querySelector(`#name-${player}`).value;
+      if (name == '')
+      {
+        name = `Player ${player}`
+      }
       return name; 
   }
 
@@ -35,34 +39,36 @@ const game = (() => {
 
   const displayController = (() => {
     // WRITE to DOM //
+    const player1 = player(1)
+    const player2 = player(2)
 
     
+    // When Play! BTN is pressed only show form
+    document.addEventListener('submit', (e) =>{
+      e.preventDefault();
+      // Show Board
+      document.querySelector('.board-container').classList.remove('banish')   
+      // Hide form
+      document.querySelector('.names').classList.add('banish')    
+      // Show player1.name vs player2.name
+      let players = document.createElement('h1');
+      players.innerHTML = `${player1.name()} vs ${player2.name()}` 
+      document.querySelector('.players').appendChild(players);
+    })
+
     // What to do when a box is clicked
     const click = (X, O) => {
       // Create Players
-      const player1 = player(1)
-      const player2 = player(2)
 
-      // When Play! BTN is pressed only show form
-      document.addEventListener('submit', (e) =>{
-        e.preventDefault();
-        // Show Board
-        document.querySelector('.board-container').classList.remove('banish')   
-        // Hide form
-        document.querySelector('.names').classList.add('banish')    
-        // Show player1.name vs player2.name
-        let players = document.createElement('h1');
-        players.innerHTML = `${player1.name()} vs ${player2.name()}` 
-        document.querySelector('.players').appendChild(players);
-      })
       // Changes when players start playing. 
       let _played1 = false;
       let _played2 = false;
       // Changes when ther is a winner so you can't play anymore
       let _emptyBox = '';
-      document.querySelector('.board-container').addEventListener("click", (e) => {
-        let symbolHTML = e.target.firstChild;
+      document.addEventListener('click', (e) => {
+        console.log(e.target);
         // Reset btn
+        // There is an error when reset is pressed  //
         if (e.target.classList.contains('btn--reset'))
         {
           _played2 = false;
@@ -75,11 +81,16 @@ const game = (() => {
             document.querySelector(`.symbol--${counter}`).innerHTML = '';
             counter++;
           })
-          
           // Deletete END GAME message
-          document.querySelector('end-game-message').remove();
+          document.querySelector('.end-game-message').remove();
           console.log(gameboard.getBoard())
       }
+      })
+      document.querySelector('.board-container').addEventListener("click", (e) => {
+        
+        let symbolHTML = e.target.firstChild;
+        
+        
         if (symbolHTML.classList.contains("symbol") && symbolHTML.innerHTML === _emptyBox) {
           // get box index to populate board Array
           let box = symbolHTML.getAttribute("data-box");
@@ -98,6 +109,7 @@ const game = (() => {
             e.target.firstChild.innerHTML = X;
             // populate board Array
             player1.play(box);
+            
             _played1 = true;
             _played2 = false;
           }
@@ -105,10 +117,13 @@ const game = (() => {
           // print winner or tie on screen.
           if (checkWinner().winner || checkWinner().winner == 'tie' ) 
           {
-            const win = document.createElement("h1");
-            win.classList.add('end-game-message');
-            win.innerHTML = checkWinner().message;
-            document.querySelector(".main").appendChild(win);
+            const win = document.createElement("div");
+            win.classList.add('end-game-message', 'game-over');
+            win.innerHTML = `
+                              <h1>${checkWinner().message}</h1>
+                              <button class="btn btn--reset">Play again</button>
+                                `;
+            document.querySelector(".board-container").appendChild(win);
             // Disable playing another round
             _emptyBox = 'winner';
           }
@@ -116,9 +131,12 @@ const game = (() => {
           // LOG ARRAY
           console.log(gameboard.getBoard());
         }
+
+        
       });
+      
     };
-    return {  click };
+    return {  click,player1, player2 };
   })();
 
   
@@ -146,12 +164,12 @@ const game = (() => {
 
     if (_player1Wins)
     {
-      message = "Player 1 wins";
+      message = `${displayController.player1.name()} Wins!!!`;
       winner = true;
     }
     else if (_player2Wins)
     {
-      message = "Player 2 wins";
+      message = `${displayController.player2.name()} Wins!!!`;
       winner = true;
     }
     // tie
