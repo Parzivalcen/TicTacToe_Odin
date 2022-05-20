@@ -42,9 +42,18 @@ const game = (() => {
       // Create Players
       const player1 = player(1)
       const player2 = player(2)
+
+      // When Play! BTN is pressed only show form
       document.addEventListener('submit', (e) =>{
         e.preventDefault();
-        document.querySelector('.board-container').classList.remove('banish')       
+        // Show Board
+        document.querySelector('.board-container').classList.remove('banish')   
+        // Hide form
+        document.querySelector('.names').classList.add('banish')    
+        // Show player1.name vs player2.name
+        let players = document.createElement('h1');
+        players.innerHTML = `${player1.name()} vs ${player2.name()}` 
+        document.querySelector('.players').appendChild(players);
       })
       // Changes when players start playing. 
       let _played1 = false;
@@ -53,7 +62,24 @@ const game = (() => {
       let _emptyBox = '';
       document.querySelector('.board-container').addEventListener("click", (e) => {
         let symbolHTML = e.target.firstChild;
-        
+        // Reset btn
+        if (e.target.classList.contains('btn--reset'))
+        {
+          _played2 = false;
+          _played1 = false;
+          _emptyBox = '';
+          checkWinner().winner = false;
+          let counter = 0;
+          gameboard.getBoard().forEach(() =>{
+            gameboard.getBoard()[counter] = '';
+            document.querySelector(`.symbol--${counter}`).innerHTML = '';
+            counter++;
+          })
+          
+          // Deletete END GAME message
+          document.querySelector('end-game-message').remove();
+          console.log(gameboard.getBoard())
+      }
         if (symbolHTML.classList.contains("symbol") && symbolHTML.innerHTML === _emptyBox) {
           // get box index to populate board Array
           let box = symbolHTML.getAttribute("data-box");
@@ -80,6 +106,7 @@ const game = (() => {
           if (checkWinner().winner || checkWinner().winner == 'tie' ) 
           {
             const win = document.createElement("h1");
+            win.classList.add('end-game-message');
             win.innerHTML = checkWinner().message;
             document.querySelector(".main").appendChild(win);
             // Disable playing another round

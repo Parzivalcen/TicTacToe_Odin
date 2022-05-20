@@ -12,9 +12,12 @@
       <div class="container">
         <div class="title">
           <h1>Tic-tac-toe</h1>
-          <h2>Welcome, enter a cool Name.</h2>
+        </div>
+        <div class="players">
+          <!-- Added in JS -->
         </div>
         <form class="names">
+          <h2>Welcome, enter a cool Name.</h2>
           <div class="form">
             <div class="input-fields">
               <!-- Player 1 name -->
@@ -31,16 +34,17 @@
             </div>
           </div>
       </form>
-      <div class="board-container banish ">
-        <div class="box" ><p data-box=0  class="symbol"></p></div>
-        <div class="box" ><p data-box=1  class="symbol"></p></div>
-        <div class="box" ><p data-box=2  class="symbol"></p></div>
-        <div class="box"><p  data-box=3 class="symbol"></p></div>
-        <div class="box" ><p data-box=4  class="symbol"></p></div>
-        <div class="box" ><p data-box=5  class="symbol"></p></div>
-        <div class="box" ><p data-box=6  class="symbol"></p></div>
-        <div class="box" ><p data-box=7  class="symbol"></p></div>
-        <div class="box" ><p data-box=8  class="symbol"></p></div>
+      <div class="board-container  banish">
+        <div class="box" ><p data-box=0  class="symbol symbol--0"></p></div>
+        <div class="box" ><p data-box=1  class="symbol symbol--1"></p></div>
+        <div class="box" ><p data-box=2  class="symbol symbol--2"></p></div>
+        <div class="box"><p  data-box=3 class="symbol symbol--3"></p></div>
+        <div class="box" ><p data-box=4  class="symbol symbol--4"></p></div>
+        <div class="box" ><p data-box=5  class="symbol symbol--5"></p></div>
+        <div class="box" ><p data-box=6  class="symbol symbol--6"></p></div>
+        <div class="box" ><p data-box=7  class="symbol symbol--7"></p></div>
+        <div class="box" ><p data-box=8  class="symbol symbol--8"></p></div>
+        <button class="btn btn--reset">reset</button>
       </div>
     </div>
     <div class="game-over banish">

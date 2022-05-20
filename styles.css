@@ -168,6 +168,10 @@ TIC-TAC-TOE
   place-items: center;
 }
 
+.btn--reset {
+  grid-column: 2;
+}
+
 .box {
   width: 100px;
   height: 100px;
@@ -207,6 +211,13 @@ Names
     padding-inline: 1rem;
   }
 
+
+  .names {
+    text-align: center;
+    border-bottom: 1px solid grey;
+    padding-bottom: 2rem;
+  }
+
   .btns {
     margin-top: 1rem;
     display: grid;
@@ -214,13 +225,15 @@ Names
     gap: 1rem;
   }
 
-  .btns>*:hover {
+  .btn:hover {
     cursor: pointer;
   }
 
-  .names {
-    border-bottom: 1px solid grey;
-    padding-bottom: 2rem;
+
+
+  .btn--reset {
+    margin-top: 1rem;
+    padding-inline: 1rem;
   }
 }
 
@@ -238,6 +251,7 @@ Names
     display: inline;
     padding-right: 0.5rem;
   }
+
 }
 
 
