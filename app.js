@@ -19,7 +19,8 @@ const game = (() => {
       }
       return name; 
   }
-
+  // Generates random numbers from 0 to 9
+    
   // Players Contructor
   const player = (number) => {
     let name = () => getName(number); 
@@ -33,8 +34,20 @@ const game = (() => {
         gameboard.getBoard()[position] = 'O';
       }
     }
-    return {name, play};
+    // AI Play
+    let getRandom = () => Math.abs(Math.round(Math.random() * (0 - 9) + 1));
+    let randomPosition = getRandom();
+    const aiPlay = () => {
+
+      randomPosition =  getRandom()
+      gameboard.getBoard()[randomPosition] = 'O';
+        console.log('Called from function', randomPosition);
+     
+    }
+    return {name, play, aiPlay, randomPosition};
   }
+
+  // A.I. Player
 
 
   const displayController = (() => {
@@ -44,16 +57,33 @@ const game = (() => {
 
     
     // When Play! BTN is pressed only show form
-    document.addEventListener('submit', (e) =>{
+    document.querySelector('.btn--play').addEventListener('click', (e) =>{
       e.preventDefault();
+      
       // Show Board
       document.querySelector('.board-container').classList.remove('banish')   
       // Hide form
-      document.querySelector('.names').classList.add('banish')    
+      document.querySelector('.names').classList.add('banish') 
+      if(document.querySelector('.ai-soon'))
+      {
+        document.querySelector('.ai-soon').classList.add('banish')
+      }   
+          
       // Show player1.name vs player2.name
       let players = document.createElement('h1');
       players.innerHTML = `${player1.name()} vs ${player2.name()}` 
       document.querySelector('.players').appendChild(players);
+    })
+    
+    // When WHEN PLAY WIHT AI is pressed
+    let AI = false;
+    document.querySelector('.btn--a-i').addEventListener('click', (e) =>{
+      e.preventDefault()
+      let notImplemented = document.createElement('div');
+      notImplemented.classList.add('ai-soon')
+      notImplemented.innerHTML = '<h1>Coming Soon</h1>';
+      document.querySelector(".container").appendChild(notImplemented);
+      
     })
 
     // What to do when a box is clicked
@@ -66,7 +96,7 @@ const game = (() => {
       // Changes when ther is a winner so you can't play anymore
       let _emptyBox = '';
       document.addEventListener('click', (e) => {
-        console.log(e.target);
+        
         // Reset btn
         // There is an error when reset is pressed  //
         if (e.target.classList.contains('btn--reset'))
@@ -98,9 +128,14 @@ const game = (() => {
           // check if player has played, if not, allow to play until there is a winner
           if (_played1) 
           {
-            e.target.firstChild.innerHTML = O;
             // populate board Array
-            player2.play(box);
+            if(AI){
+              player2.aiPlay()
+              console.log( document.querySelector(`[data-box = "${player2.randomPosition}"]`) );
+            }else{
+              e.target.firstChild.innerHTML = O;
+              player2.play(box);
+            }
             _played2 = true;
             _played1 = false;
           } 
@@ -185,7 +220,7 @@ const game = (() => {
   };
 
   displayController.click("x", "O");
-  console.log(gameboard.getBoard());
+  
 
 
 
