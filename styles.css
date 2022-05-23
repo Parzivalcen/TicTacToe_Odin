@@ -153,8 +153,9 @@ utility clases
 TIC-TAC-TOE
 --------------- */
 .container {
-  display: grid;
+  display: flex;
   place-items: center;
+  flex-direction: column;
 }
 
 .board-container {

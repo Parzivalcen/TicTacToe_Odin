@@ -62,6 +62,7 @@ const game = (() => {
       
       // Show Board
       document.querySelector('.board-container').classList.remove('banish')   
+      document.querySelector('.btn--reset').classList.remove('banish')   
       // Hide form
       document.querySelector('.names').classList.add('banish') 
       if(document.querySelector('.ai-soon'))
@@ -93,7 +94,7 @@ const game = (() => {
       // Changes when players start playing. 
       let _played1 = false;
       let _played2 = false;
-      // Changes when ther is a winner so you can't play anymore
+      // Changes when there is a winner so you can't play anymore
       let _emptyBox = '';
       document.addEventListener('click', (e) => {
         
@@ -112,7 +113,10 @@ const game = (() => {
             counter++;
           })
           // Deletete END GAME message
-          document.querySelector('.end-game-message').remove();
+          if(document.querySelector('.end-game-message'))
+          {
+            document.querySelector('.end-game-message').remove();
+          }
           console.log(gameboard.getBoard())
       }
       })
@@ -158,7 +162,7 @@ const game = (() => {
                               <h1>${checkWinner().message}</h1>
                               <button class="btn btn--reset">Play again</button>
                                 `;
-            document.querySelector(".board-container").appendChild(win);
+            document.querySelector(".container").appendChild(win);
             // Disable playing another round
             _emptyBox = 'winner';
           }
