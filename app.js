@@ -35,16 +35,16 @@ const game = (() => {
       }
     }
     // AI Play
-    let getRandom = () => Math.abs(Math.round(Math.random() * (0 - 9) + 1));
-    let randomPosition = getRandom();
-    const aiPlay = () => {
+    // let getRandom = () => Math.round(Math.random() * 9);
+    // let randomPosition = getRandom();
+    // const aiPlay = () => {
 
-      randomPosition =  getRandom()
-      gameboard.getBoard()[randomPosition] = 'O';
-        console.log('Called from function', randomPosition);
+    //   randomPosition =  getRandom()
+    //   gameboard.getBoard()[randomPosition] = 'O';
+    //     console.log('Called from function', randomPosition);
      
-    }
-    return {name, play, aiPlay, randomPosition};
+    // }
+    return {name, play};
   }
 
   // A.I. Player
@@ -80,10 +80,21 @@ const game = (() => {
     let AI = false;
     document.querySelector('.btn--a-i').addEventListener('click', (e) =>{
       e.preventDefault()
-      let notImplemented = document.createElement('div');
-      notImplemented.classList.add('ai-soon')
-      notImplemented.innerHTML = '<h1>Coming Soon</h1>';
-      document.querySelector(".container").appendChild(notImplemented);
+      AI = true;
+       // Show Board
+      document.querySelector('.board-container').classList.remove('banish')   
+      document.querySelector('.btn--reset').classList.remove('banish')   
+      // Hide form
+      document.querySelector('.names').classList.add('banish') 
+      if(document.querySelector('.ai-soon'))
+      {
+        document.querySelector('.ai-soon').classList.add('banish')
+      }   
+          
+      // Show player1.name vs player2.name
+      let players = document.createElement('h1');
+      players.innerHTML = `${player1.name()} vs ${player2.name()}` 
+      document.querySelector('.players').appendChild(players);
       
     })
 
@@ -124,7 +135,7 @@ const game = (() => {
         
         let symbolHTML = e.target.firstChild;
         
-        
+        let getRandom = () => Math.round(Math.random() * 8);
         if (symbolHTML.classList.contains("symbol") && symbolHTML.innerHTML === _emptyBox) {
           // get box index to populate board Array
           let box = symbolHTML.getAttribute("data-box");
@@ -132,10 +143,19 @@ const game = (() => {
           // check if player has played, if not, allow to play until there is a winner
           if (_played1) 
           {
-            // populate board Array
+            // Ai legal move, need to do this with out clicking
             if(AI){
-              player2.aiPlay()
-              console.log( document.querySelector(`[data-box = "${player2.randomPosition}"]`) );
+              let random;
+              do
+              {
+                random = getRandom()
+              }while(gameboard.positionIndex(random) != '')
+              // populate board Array
+              player2.play(random)
+              document.querySelector(`[data-box = "${random}"]`).innerHTML = O;
+              console.log( document.querySelector(`[data-box = "${random}"]`) );
+              console.log(random);
+              
             }else{
               e.target.firstChild.innerHTML = O;
               player2.play(box);
