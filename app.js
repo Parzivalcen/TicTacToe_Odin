@@ -131,132 +131,110 @@ const game = (() => {
           console.log(gameboard.getBoard())
       }
       })
-
-      // AI Play
-      // if(AI == true)
-      // {
-      //   console.log(AI);
-      //   document.querySelector('.board-container').addEventListener("click", (e) => {
-        
-      //   let symbolHTML = e.target.firstChild;
-        
-      //   let getRandom = () => Math.round(Math.random() * 8);
-      //   if (symbolHTML.classList.contains("symbol") && symbolHTML.innerHTML === _emptyBox) {
-      //     // get box index to populate board Array
-      //     let box = symbolHTML.getAttribute("data-box");
-
-      //     // check if player has played, if not, allow to play until there is a winner
-      //     if (_played1) 
-      //     {
-      //       // Ai legal move, need to do this with out clicking
-      //         let random;
-      //         do
-      //         {
-      //           random = getRandom()
-      //         }while(gameboard.positionIndex(random) != '')
-      //         // populate board Array
-      //         player2.play(random)
-      //         document.querySelector(`[data-box = "${random}"]`).innerHTML = O;
-      //         console.log( document.querySelector(`[data-box = "${random}"]`) );
-      //         console.log(random);
-              
-            
-      //       _played2 = true;
-      //       _played1 = false;
-      //     } 
-      //     else 
-      //     {
-      //       e.target.firstChild.innerHTML = X;
-      //       // populate board Array
-      //       player1.play(box);
-            
-      //       _played1 = true;
-      //       _played2 = false;
-      //     }
-
-      //     // print winner or tie on screen.
-      //     if (checkWinner().winner || checkWinner().winner == 'tie' ) 
-      //     {
-      //       const win = document.createElement("div");
-      //       win.classList.add('end-game-message', 'game-over');
-      //       win.innerHTML = `
-      //                         <h1>${checkWinner().message}</h1>
-      //                         <button class="btn btn--reset">Play again</button>
-      //                           `;
-      //       document.querySelector(".container").appendChild(win);
-      //       // Disable playing another round
-      //       _emptyBox = 'winner';
-      //     }
-          
-      //     // LOG ARRAY
-      //     console.log(gameboard.getBoard());
-      //   }
-
-        
-      // });
-      // }
-
-
+      // Play logic
       document.querySelector('.board-container').addEventListener("click", (e) => {
         
         let symbolHTML = e.target.firstChild;
         if (symbolHTML.classList.contains("symbol") && symbolHTML.innerHTML === _emptyBox) {
-          AIPlay(e, symbolHTML, X, O);
+          if(AI){
+            AIPlay(e, symbolHTML, X, O);
+          }else{
+          humanPlay(e, symbolHTML, X, O)  
+          }
         }
         
         
       });
       
-    };
-    // Play with AI
-    const AIPlay = (e,symbolHTML, X, O) => {
-      // get box index to populate board Array
-      let box = symbolHTML.getAttribute("data-box");
-  
-      
-        e.target.firstChild.innerHTML = X;
-        // populate board Array
-        player1.play(box);
+      // HUMAN Play
+      const humanPlay = (e,symbolHTML, X, O) => {
+        // get box index to populate board Array
         
-      
+        let box = symbolHTML.getAttribute("data-box");
   
-  
-        let aiMove = AIMove(gameboard.getBoard());
-        if(aiMove !== undefined)
+        // check if player has played, if not, allow to play until there is a winner
+        if (_played1) 
         {
+            e.target.firstChild.innerHTML = O;
+            player2.play(box);
   
-          
+          _played2 = true;
+          _played1 = false;
+          console.log(_played1);
+          console.log(_played2);
+        } 
+        else 
+        {
+          e.target.firstChild.innerHTML = X;
           // populate board Array
-          player2.play(aiMove)
-          document.querySelector(`[data-box = "${aiMove}"]`).innerHTML = O;
+          player1.play(box);
           
+          _played1 = true;
+          _played2 = false;
+          console.log(_played1);
+          console.log(_played2);
         }
-        
-      // print winner or tie on screen.
-      if (checkWinner().winner || checkWinner().winner == 'tie' ) 
-      {
-        endGame();
-      }
-      
-      // LOG ARRAY
-      console.log(gameboard.getBoard());
-      
-    }
-    // Get AI move logic
-    const AIMove = (boardArray) => {
-      let posibleMoves = [];
-      for(let i = 0; i<boardArray.length; i++)
-      {
-        
-        if(boardArray[i] === "")
+          
+        // print winner or tie on screen.
+        if (checkWinner().winner || checkWinner().winner == 'tie' ) 
         {
-          posibleMoves.push(i);
+          endGame();
         }
+        
+        // LOG ARRAY
+        console.log(gameboard.getBoard());  
+        return{_played1, _played2};
       }
-      let random = Math.floor(Math.random() * posibleMoves.length);
-      return posibleMoves[random]
 
-    }
+      // Play with AI
+      const AIPlay = (e,symbolHTML, X, O) => {
+        // get box index to populate board Array
+        let box = symbolHTML.getAttribute("data-box");
+    
+        
+          e.target.firstChild.innerHTML = X;
+          // populate board Array
+          player1.play(box);
+          let aiMove = AIMove(gameboard.getBoard());
+          // If one of thse conditions is met, it does not have to play anymore
+          if(aiMove !== undefined && !checkWinner().winner)
+          {
+    
+            
+            // populate board Array
+            player2.play(aiMove)
+            document.querySelector(`[data-box = "${aiMove}"]`).innerHTML = O;
+            
+          }
+          
+        // print winner or tie on screen.
+        if (checkWinner().winner || checkWinner().winner == 'tie' ) 
+        {
+          endGame();
+        }
+        
+        // LOG ARRAY
+        console.log(gameboard.getBoard());
+        
+      }
+      // Get AI move logic
+      const AIMove = (boardArray) => {
+        let posibleMoves = [];
+        for(let i = 0; i<boardArray.length; i++)
+        {
+          // get empty boxes
+          if(boardArray[i] === "")
+          {
+            posibleMoves.push(i);
+          }
+        }
+  
+        let random = Math.floor(Math.random() * posibleMoves.length);
+        return posibleMoves[random]
+  
+      }
+    };
+
     // END game logic
     const endGame = () => {
       const win = document.createElement("div");
