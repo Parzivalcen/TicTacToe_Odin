@@ -19,12 +19,11 @@ const game = (() => {
       }
       return name; 
   }
-  // Generates random numbers from 0 to 9
+  
     
   // Players Contructor
   const player = (number) => {
-    let name = () => getName(number); 
-    let id = number; 
+    let name = () => getName(number);  
     const play = (position) =>{
       if (number === 1)
       {
@@ -34,20 +33,8 @@ const game = (() => {
         gameboard.getBoard()[position] = 'O';
       }
     }
-    // AI Play
-    // let getRandom = () => Math.round(Math.random() * 9);
-    // let randomPosition = getRandom();
-    // const aiPlay = () => {
-
-    //   randomPosition =  getRandom()
-    //   gameboard.getBoard()[randomPosition] = 'O';
-    //     console.log('Called from function', randomPosition);
-     
-    // }
     return {name, play};
   }
-
-  // A.I. Player
 
 
   const displayController = (() => {
@@ -196,6 +183,7 @@ const game = (() => {
           // populate board Array
           player1.play(box);
           let aiMove = AIMove(gameboard.getBoard());
+          
           // If one of thse conditions is met, it does not have to play anymore
           if(aiMove !== undefined && !checkWinner().winner)
           {
@@ -217,38 +205,39 @@ const game = (() => {
         console.log(gameboard.getBoard());
         
       }
-      // Get AI move logic
-      const AIMove = (boardArray) => {
-        let posibleMoves = [];
-        for(let i = 0; i<boardArray.length; i++)
-        {
-          // get empty boxes
-          if(boardArray[i] === "")
-          {
-            posibleMoves.push(i);
-          }
-        }
-  
-        let random = Math.floor(Math.random() * posibleMoves.length);
-        return posibleMoves[random]
-  
-      }
     };
-
-    // END game logic
-    const endGame = () => {
-      const win = document.createElement("div");
-      win.classList.add('end-game-message', 'game-over');
-      win.innerHTML = `
-                        <h1>${checkWinner().message}</h1>
-                        <button class="btn btn--reset">Play again</button>
-                          `;
-      document.querySelector(".container").appendChild(win);
-      // Disable playing another round
-      _emptyBox = 'winner';
-    }
+    // avaible spots
+    
     return {  click,player1, player2 };
   })();
+  // Get AI move logic
+  const AIMove = (boardArray) => {
+    let posibleMoves = [];
+    for(let i = 0; i<boardArray.length; i++)
+    {
+      // get empty boxes
+      if(boardArray[i] === "")
+      {
+        posibleMoves.push(i);
+      }
+    }
+
+    let random = Math.floor(Math.random() * posibleMoves.length);
+    return posibleMoves[random]
+
+  }
+  // END game logic
+  const endGame = () => {
+    const win = document.createElement("div");
+    win.classList.add('end-game-message', 'game-over');
+    win.innerHTML = `
+                      <h1>${checkWinner().message}</h1>
+                      <button class="btn btn--reset">Play again</button>
+                        `;
+    document.querySelector(".container").appendChild(win);
+    // Disable playing another round
+    _emptyBox = 'winner';
+  }
 
   const checkWinner = () => {
     const _winCombos = [
@@ -275,12 +264,12 @@ const game = (() => {
     if (_player1Wins)
     {
       message = `${displayController.player1.name()} Wins!!!`;
-      winner = true;
+      winner = 'X';
     }
     else if (_player2Wins)
     {
       message = `${displayController.player2.name()} Wins!!!`;
-      winner = true;
+      winner = 'O';
     }
     // tie
     else if (!gameboard.getBoard().includes(''))
